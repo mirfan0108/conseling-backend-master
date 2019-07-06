@@ -1,5 +1,9 @@
 const User = require('../Model/User.js')
 const Profile = require('../Model/profile.js')
+const Resize = require('../Resize.js');
+const path = require('path');
+const imagePath = path.join(__dirname, '/public/assets/avatars');
+
 let Resp = {};
 
 let add = (req, res) => {
@@ -31,9 +35,11 @@ let add = (req, res) => {
             if(err.code == 11000)
             res.send({code: 409, msg: "Email sudah terdaftar"});//err connection
         } else {
+            let tempProfile = req.body.profile;
+            
             result.user = true;
             Resp.data = user;
-            let tempProfile = req.body.profile;
+            
             tempProfile.userId = newUser._id;
             let newProfile = new Profile(tempProfile);
             newProfile.save((err, profile) => {

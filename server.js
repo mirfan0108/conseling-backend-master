@@ -16,20 +16,31 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 var port = process.env.PORT || 8080;        // set our port
-
+const multer = require('multer');
 
 
 const user = require('./Controller/user.control.js')
 const schedule = require('./Controller/schedule.control.js')
 const profile = require('./Controller/profile.control.js')
 const conseling = require('./Controller/conseling.control.js')
+const uploads = require('./Controller/upload.control.js')
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
 
+const upload = multer({
+    limits: {
+      fileSize: 4 * 1024 * 1024,
+    }
+  });
+  
+
 router.post('/regist', user.regist );
 router.post('/login', user.doLogin );
 
+router.post('/uploads',upload.single('avatar'), uploads.doUpload)
+
+router.delete('/image/:avatarName', uploads.doDelete)
 
 router.post('/schedule', schedule.setSchedule);
 router.get('/schedule', schedule.getScheduleAll);
@@ -41,6 +52,7 @@ router.put('/profile/:profileId', profile.updateProfile );
 
 router.get('/conseling/patient/:patientId', conseling.getConselingByPatient);
 router.get('/conseling', conseling.getConseling)
+router.put('/conseling/:conselingId', conseling.doUpdateConseling)
 
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
@@ -73,7 +85,7 @@ router.post('/authenticate', function(req, res){
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
-
+app.use('/media', express.static('public'))
 // START THE SERVER
 // =============================================================================
 app.listen(port, () => {

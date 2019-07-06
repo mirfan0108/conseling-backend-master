@@ -1,5 +1,5 @@
 const Conseling = require('../Model/Conseling.js')
-
+const Profile = require('../Model/profile.js')
 
 let getConseling = (req, res) => {
     Conseling.find({}, (err, conseling) => {
@@ -51,5 +51,6 @@ let getConselingByPatient = (req, res) => {
 
 module.exports = {
     getConseling: getConseling,
-    getConselingByPatient: getConselingByPatient
+    getConselingByPatient: getConselingByPatient,
+    doUpdateConseling: updateConseling
 }
