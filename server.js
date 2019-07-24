@@ -24,6 +24,8 @@ const schedule = require('./Controller/schedule.control.js')
 const profile = require('./Controller/profile.control.js')
 const conseling = require('./Controller/conseling.control.js')
 const uploads = require('./Controller/upload.control.js')
+const complaint = require('./Controller/complaint.control.js')
+const category = require('./Controller/category.control.js')
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
@@ -35,12 +37,16 @@ const upload = multer({
   });
   
 
-router.post('/regist', user.regist );
+router.post('/regist',upload.single('avatar'), user.regist );
 router.post('/login', user.doLogin );
 
 router.post('/uploads',upload.single('avatar'), uploads.doUpload)
-
+router.post('/prof',upload.single('avatar'), user.Tes);
+router.get('/media/:id', user.GetTes)
 router.delete('/image/:avatarName', uploads.doDelete)
+router.post('/forget-password/send-email', user.SendMail)
+router.post('/forget-password/verify', user.doVerify)
+router.post('/reset-password', user.doReset)
 
 router.post('/schedule', schedule.setSchedule);
 router.get('/schedule', schedule.getScheduleAll);
@@ -54,6 +60,16 @@ router.get('/conseling/patient/:patientId', conseling.getConselingByPatient);
 router.get('/conseling', conseling.getConseling)
 router.put('/conseling/:conselingId', conseling.doUpdateConseling)
 
+router.post('/category', category.doPost)
+router.get('/category', category.getList)
+router.get('/category/:categoryId', category.getCategory)
+
+router.post('/complaint', complaint.doPost)
+router.get('/complaint', complaint.getComplaint)
+router.get('/complaint/:complaintId', complaint.getById)
+router.get('/complaint/patient/:patientId', complaint.getComplaintByPatient)    
+router.get('/complaint/conselor/:conselorId', complaint.getComplaintByConselor)
+router.put('/complaint/:complaintId', complaint.doUpdateComplaint)
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.use(function(req, res, next) {
