@@ -1,10 +1,9 @@
 const Schedule = require('../Model/Schedule.js')
 const Conseling = require('../Model/Conseling.js')
 
-let Resp = {}
-
 let getSchedule = (req, res) => {
-    Schedule.find({}, (err, scheduler) => {
+    Schedule.find(
+        {conselor_id: req.params.conselorId }, (err, scheduler) => {
         if (err) {
             const msgError = {code: 500}
             return msgError;
@@ -81,6 +80,22 @@ let setSchedule = (req, res) => {
         }
     });
 }
+
+// let conselorSchedule = (req, res) => { 
+//     Schedule.find(, (err, scheduler) => {
+//         if (err) {
+//             const msgError = {code: 500}
+//             return msgError;
+//         } else {
+//             return res.status(200).send({
+//                 status: "200 OK",
+//                 success: 'true',
+//                 data: scheduler
+//             });
+
+//         }
+//     })
+// }
 
 module.exports = {
     getScheduleAll: getSchedule,

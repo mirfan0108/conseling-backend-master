@@ -26,6 +26,7 @@ const conseling = require('./Controller/conseling.control.js')
 const uploads = require('./Controller/upload.control.js')
 const complaint = require('./Controller/complaint.control.js')
 const category = require('./Controller/category.control.js')
+const weekly = require('./Controller/weekly.control.js')
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
@@ -52,13 +53,18 @@ router.post('/schedule', schedule.setSchedule);
 router.get('/schedule', schedule.getScheduleAll);
 router.get('/schedule/conseling/:scheduleId', schedule.getScheduleById);
 router.get('/schedule/:date', schedule.getScheduleByDate);
+router.post('/schedule/weekly', weekly.setWeekly)
+router.put('/schedule/weekly/:weekId', weekly.putWeekly)
+router.get('/schedule/weekly/:conselorId', weekly.getWeekly)
 
 router.get('/profile/:userId', profile.getProfile);
 router.put('/profile/:profileId', profile.updateProfile );
 
 router.get('/conseling/patient/:patientId', conseling.getConselingByPatient);
 router.get('/conseling', conseling.getConseling)
+router.get('/conseling/:conselorId', conseling.getConselingConselor)
 router.put('/conseling/:conselingId', conseling.doUpdateConseling)
+router.post('/conseling', conseling.createConsult)
 
 router.post('/category', category.doPost)
 router.get('/category', category.getList)

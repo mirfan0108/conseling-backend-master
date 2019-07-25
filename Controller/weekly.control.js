@@ -3,7 +3,7 @@ const Weekly = require('../Model/Weekly.js')
 let Resp = {}
 
 let getWeekly = (req, res) => {
-    Schedule.find({conselor_id: req.params.conselorId}, (err, weeks) => {
+    Weekly.find({conselor_id: req.params.conselorId}, (err, weeks) => {
         if (err) {
             const msgError = {code: 500}
             return msgError;
@@ -20,7 +20,7 @@ let getWeekly = (req, res) => {
 
 let puWeekly = (req, res) => {
     Weekly.findOneAndUpdate(
-        { _id: req.params.profileId },
+        { conselor_id: req.params.weekId },
         req.body,
         { new: true },
         (err, week) => {

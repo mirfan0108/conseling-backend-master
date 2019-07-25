@@ -3,11 +3,12 @@ const Schema = mongoose.Schema;
 
 let Conseling = new Schema({
     status: {type: Number, default: 0},
-    title: {type: String, required: true},
-    description: {type: String, required: true},
-    scheduleId: {type: Schema.Types.ObjectId, ref: 'Schedule'},
+    complaint_id: {type: String, required: true},
+    methode: {type: String},
+    option: {type: String},
+    result: {type: String},
     patientId: {type: String},
-    conselorId: {type: String, default: ""},
+    conselorId: {type: String},
     created_on: {type: Date, default: Date.now}
 });
 

@@ -4,6 +4,7 @@ const Resize = require('../Resize.js');
 const path = require('path');
 const imagePath = path.join(__dirname, '/public/assets/avatars');
 const Specialist = require('../Model/Specialist.js');
+const Weekly = require('../Model/Weekly.js');
 var fs = require('fs');
 let Resp = {};
 var nodemailer = require('nodemailer');
@@ -43,6 +44,8 @@ let add = (req, res) => {
                 } else {
                     if(req.body.role == 1) {
                         newSpecialist = new Specialist(req.body.specialist)
+                        newWeekly = new Weekly({conselor_id: user._id})
+                        newWeekly.save()
                     }
                     if(profile._id != null) {
                         res.status(201).json(user);
