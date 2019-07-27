@@ -207,9 +207,20 @@ let tes = (req, res) => {
 
 let getTes = (req,res) => {
     Profile.find({_id: req.params.id}, function (err, doc) {
-        if (err) return next(err);
-        res.contentType(doc[0].avatar.contentType);
-        res.send(doc[0].avatar.data);
+        if(err) {
+            res.send(err)
+        } else {
+            if(doc[0].avatar != "") {
+                if(doc[0].avatar.data != null) {
+                    res.contentType(doc[0].avatar.contentType);
+                    res.send(doc[0].avatar.data);
+                } else {
+                    res.status(204).send()
+                }
+            } else {
+                res.status(204).send()
+            }
+        }
       });
 }
 

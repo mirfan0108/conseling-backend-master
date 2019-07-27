@@ -33,6 +33,22 @@ let getComplaintById = (req, res) => {
     })
 }
 
+let getComplaintByOnlyId = (req, res) => {
+    Complaint.find({ _id: req.params.complaintId}, (err, complaint) => {
+        if (err) {
+            const msgError = {code: 500}
+            return msgError;
+        } else {
+            return res.status(200).send({
+                status: "200 OK",
+                success: 'true',
+                data: complaint[0]
+            });
+
+        }
+    })
+}
+
 let postComplaint = (req, res) => {
     let newComplaint = new Complaint(req.body);
     newComplaint.save((err, complaint) => {
@@ -108,5 +124,6 @@ module.exports = {
     getComplaintByConselor: getComplaintByConselor,
     doUpdateComplaint: updateComplaint,
     doPost: postComplaint,
-    getById: getComplaintById
+    getById: getComplaintById,
+    getOnlyId: getComplaintByOnlyId
 }

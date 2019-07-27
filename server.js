@@ -27,6 +27,7 @@ const uploads = require('./Controller/upload.control.js')
 const complaint = require('./Controller/complaint.control.js')
 const category = require('./Controller/category.control.js')
 const weekly = require('./Controller/weekly.control.js')
+const ResAndDec = require('./Controller/Resultdecline.control.js')
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
@@ -53,6 +54,8 @@ router.post('/schedule', schedule.setSchedule);
 router.get('/schedule', schedule.getScheduleAll);
 router.get('/schedule/conseling/:scheduleId', schedule.getScheduleById);
 router.get('/schedule/:date', schedule.getScheduleByDate);
+router.get('/schedule/conselings/:conselingId', schedule.getScheduleConseling)
+
 router.post('/schedule/weekly', weekly.setWeekly)
 router.put('/schedule/weekly/:weekId', weekly.putWeekly)
 router.get('/schedule/weekly/:conselorId', weekly.getWeekly)
@@ -73,9 +76,15 @@ router.get('/category/:categoryId', category.getCategory)
 router.post('/complaint', complaint.doPost)
 router.get('/complaint', complaint.getComplaint)
 router.get('/complaint/:complaintId', complaint.getById)
+router.get('/complaint/id/:complaintId', complaint.getOnlyId)
 router.get('/complaint/patient/:patientId', complaint.getComplaintByPatient)    
 router.get('/complaint/conselor/:conselorId', complaint.getComplaintByConselor)
 router.put('/complaint/:complaintId', complaint.doUpdateComplaint)
+
+router.post('/conseling/result', ResAndDec.postResult)
+router.get('/conseling/result/:conselingId', ResAndDec.getResult)
+router.post('/complaint/decline', ResAndDec.postDecline)
+router.get('/complaint/decline/:complaintId', ResAndDec.getDecline)
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.use(function(req, res, next) {

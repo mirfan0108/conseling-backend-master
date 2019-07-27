@@ -18,6 +18,22 @@ let getSchedule = (req, res) => {
     })
 }
 
+let scheduleConseling = (req, res) => {
+    Schedule.find({conseling_id: req.params.conselingId}, (err, scheduler) => {
+        if (err) {
+            const msgError = {code: 500}
+            return msgError;
+        } else {
+            return res.status(200).send({
+                status: "200 OK",
+                success: 'true',
+                data: scheduler
+            });
+
+        }
+    })
+}
+
 let getScheduleById = (req, res) => {
     Schedule.find({_id: req.params.scheduleId}, (err, scheduler) => {
         if (err) {
@@ -101,5 +117,6 @@ module.exports = {
     getScheduleAll: getSchedule,
     getScheduleById: getScheduleById,
     setSchedule: setSchedule,
-    getScheduleByDate: getScheduleByDate
+    getScheduleByDate: getScheduleByDate,
+    getScheduleConseling: scheduleConseling
 }
