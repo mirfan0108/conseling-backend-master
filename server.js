@@ -12,6 +12,8 @@ var bodyParser  = require('body-parser');
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 require('./graphql.js')
+
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -27,6 +29,7 @@ const uploads = require('./Controller/upload.control.js')
 const complaint = require('./Controller/complaint.control.js')
 const category = require('./Controller/category.control.js')
 const weekly = require('./Controller/weekly.control.js')
+const room = require('./Controller/room.control.js')
 const ResAndDec = require('./Controller/Resultdecline.control.js')
 // ROUTES FOR OUR API
 // =============================================================================
@@ -81,6 +84,9 @@ router.get('/complaint/patient/:patientId', complaint.getComplaintByPatient)
 router.get('/complaint/conselor/:conselorId', complaint.getComplaintByConselor)
 router.put('/complaint/:complaintId', complaint.doUpdateComplaint)
 
+router.post('/chat/room', room.setRoom)
+router.get('/chat/room/:conseling_id', room.getRoom)
+
 router.post('/conseling/result', ResAndDec.postResult)
 router.get('/conseling/result/:conselingId', ResAndDec.getResult)
 router.post('/complaint/decline', ResAndDec.postDecline)
@@ -119,6 +125,9 @@ app.use('/api', router);
 app.use('/media', express.static('public'))
 // START THE SERVER
 // =============================================================================
+
+
+
 app.listen(port, () => {
     console.log('connecting mongodb... ');
 });
