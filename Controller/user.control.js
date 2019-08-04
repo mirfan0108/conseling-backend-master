@@ -29,7 +29,8 @@ let add = (req, res) => {
         } else {
             let formProfile = {
                 name: req.body.name,
-                avatar: req.file ? {data: req.file.buffer,contentType: 'image/png'} : {data: null,contentType: null},
+                avatar: req.files['avatar'][0] ? {data: req.files['avatar'][0].buffer, contentType: 'image/png'} : {data: null,contentType: null},
+                ktp: req.files['ktp'][0] ? {data: req.files['ktp'][0].buffer, contentType: 'image/png'} : {data: null,contentType: null},
                 hp: req.body.hp,
                 gender: req.body.gender,
                 birth:  req.body.birth,
@@ -224,6 +225,25 @@ let getTes = (req,res) => {
       });
 }
 
+let getKtp = (req,res) => {
+    Profile.find({_id: req.params.id}, function (err, doc) {
+        if(err) {
+            res.send(err)
+        } else {
+            if(doc[0].ktp != "") {
+                if(doc[0].ktp.data != null) {
+                    res.contentType(doc[0].ktp.contentType);
+                    res.send(doc[0].ktp.data);
+                } else {
+                    res.status(204).send()
+                }
+            } else {
+                res.status(204).send()
+            }
+        }
+      });
+}
+
 let Login = (req, res) => {
     console.log("searching")
     User.find({email:req.body.email, password:req.body.password}, (err, user) => {
@@ -237,6 +257,36 @@ let Login = (req, res) => {
     });
 }
 
+let GetUser = (req, res) => {
+    console.log("searching")
+    User.find({_id:req.params.user_id}, (err, user) => {
+        
+        if (err) {
+            const msgError = {code: 500}
+            return msgError;
+        } else {
+            res.status(200).send(user[0]);
+        }
+    });
+}
+
+let updateStatus = (req, res) => {
+    Profile.findOneAndUpdate(
+        { _id: req.params.userId },
+        req.body,
+        { new: true },
+        (err, profile) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.status(200).json({
+                    code: 200,
+                    data: profile
+                });
+            }
+        }
+    );
+}
 
 
 module.exports = {
@@ -248,5 +298,8 @@ module.exports = {
     Tes: tes,
     GetTes: getTes,
     SendMail: sendEmail,
-    doReset: resetPwd
+    doReset: resetPwd,
+    GetKtp: getKtp,
+    getUser: GetUser,
+    UpdateStatus: updateStatus
   }

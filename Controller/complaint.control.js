@@ -1,8 +1,9 @@
 const Complaint = require('../Model/Complaint.js')
 const Profile = require('../Model/profile.js')
 
+
 let getComplaint = (req, res) => {
-    Complaint.find({status: 0}, (err, complaint) => {
+    Complaint.find({}, (err, complaint) => {
         if (err) {
             const msgError = {code: 500}
             return msgError;
@@ -12,7 +13,6 @@ let getComplaint = (req, res) => {
                 success: 'true',
                 data: complaint
             });
-
         }
     })
 }
@@ -28,7 +28,6 @@ let getComplaintById = (req, res) => {
                 success: 'true',
                 data: complaint[0]
             });
-
         }
     })
 }

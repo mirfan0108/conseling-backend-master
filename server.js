@@ -31,6 +31,7 @@ const category = require('./Controller/category.control.js')
 const weekly = require('./Controller/weekly.control.js')
 const room = require('./Controller/room.control.js')
 const ResAndDec = require('./Controller/Resultdecline.control.js')
+const Specialist = require('./Controller/specialist.control.js')
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
@@ -42,12 +43,15 @@ const upload = multer({
   });
   
 
-router.post('/regist',upload.single('avatar'), user.regist );
+router.post('/regist',upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'ktp', maxCount: 1 }]), user.regist );
 router.post('/login', user.doLogin );
+router.get('/user/:user_id', user.getUser);
+router.put('/user/update/:userId', user.UpdateStatus)
 
 router.post('/uploads',upload.single('avatar'), uploads.doUpload)
 router.post('/prof',upload.single('avatar'), user.Tes);
 router.get('/media/:id', user.GetTes)
+router.get('/media/ktp/:id', user.GetKtp)
 router.delete('/image/:avatarName', uploads.doDelete)
 router.post('/forget-password/send-email', user.SendMail)
 router.post('/forget-password/verify', user.doVerify)
@@ -91,6 +95,9 @@ router.post('/conseling/result', ResAndDec.postResult)
 router.get('/conseling/result/:conselingId', ResAndDec.getResult)
 router.post('/complaint/decline', ResAndDec.postDecline)
 router.get('/complaint/decline/:complaintId', ResAndDec.getDecline)
+
+router.post('/specialist', Specialist.setSpecialist )
+router.get('/specialist/conselor/:categories_id', Specialist.getConselorWithSpecialist)
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.use(function(req, res, next) {
@@ -146,6 +153,10 @@ io.on('connection', (socket) => {
 
     socket.on('add-message', (message) => {
         io.emit('message', {text: message.text, from: socket.nickname, created: new Date()})
+    })
+    
+    socket.on('status-update', (status) => {
+        socket.emit('status-changed', {status: status.status, user : status.user_id})
     })
 
 })

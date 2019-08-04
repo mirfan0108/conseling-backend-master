@@ -18,6 +18,23 @@ let getSpecialist = (req, res) => {
     })
 }
 
+let getConselorBySpecialist = (req, res) => {
+    Specialist.find({categories_id: req.params.categories_id}, (err, specialists) => {
+        if (err) {
+            const msgError = {code: 500}
+            return msgError;
+        } else {
+            return res.status(200).send({
+                status: "200 OK",
+                success: 'true',
+                data: specialists
+            });
+
+        }
+    })
+}
+
+
 let puSpecialist = (req, res) => {
     Specialist.findOneAndUpdate(
         { _id: req.params.specialistId },
@@ -36,41 +53,9 @@ let puSpecialist = (req, res) => {
     );
 }
 
-// let getSpecialistById = (req, res) => {
-//     Specialist.find({_id: req.params.SpecialistId}, (err, Specialistr) => {
-//         if (err) {
-//             const msgError = {code: 500}
-//             return msgError;
-//         } else {
-//             return res.status(200).send({
-//                 status: "200 OK",
-//                 success: 'true',
-//                 data: Specialistr
-//             });
-
-//         }
-//     })
-// }
-
-// let getSpecialistByDate = (req, res) => {
-//     Specialist.find({date: req.params.date}, (err, Specialistr) => {
-//         if (err) {
-//             const msgError = {code: 500}
-//             return msgError;
-//         } else {
-//             return res.status(200).send({
-//                 status: "200 OK",
-//                 success: 'true',
-//                 data: Specialistr
-//             });
-
-//         }
-//     })
-// }
-
 let setSpecialist = (req, res) => {
     let formspecialist = {
-        categories_id: req.body.specialist,
+        categories_id: req.body.categories_id,
         conselor_id: req.body.conselor_id
     };
     
@@ -89,5 +74,6 @@ let setSpecialist = (req, res) => {
 module.exports = {
     getSpecialist: getSpecialist,
     setSpecialist: setSpecialist,
-    putSpecialist: puSpecialist
+    putSpecialist: puSpecialist,
+    getConselorWithSpecialist: getConselorBySpecialist
 }

@@ -6,6 +6,7 @@ let User = new Schema({
     password: {type: String, required: true},
     role: {type: Number, default: 0},
     token_reset: {type: String, default: ""},
+    status: {type: Number, default: 0},
     created_on: {type: Date, default: Date.now}
 });
 

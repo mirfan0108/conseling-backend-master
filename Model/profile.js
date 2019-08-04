@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 let Profile = new Schema({
     name: {type: String, required: true},
     avatar: {data: Buffer, contentType: String},
+    ktp: {data: Buffer, contentType: String},
     hp: {type: Number},
     gender: {type: String, default: 'men'},
     birth:  {type: String},
