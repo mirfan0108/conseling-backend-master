@@ -7,6 +7,7 @@ let Schedule = new Schema({
     conselor_id: {type: String},
     patient_id: {type: String},
     conseling_id: {type: String},
+    status: {type: Number, default: 0},
     created_on: {type: Date, default: Date.now}
 });
 

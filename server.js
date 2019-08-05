@@ -32,6 +32,7 @@ const weekly = require('./Controller/weekly.control.js')
 const room = require('./Controller/room.control.js')
 const ResAndDec = require('./Controller/Resultdecline.control.js')
 const Specialist = require('./Controller/specialist.control.js')
+const LogChat = require('./Controller/logchat.control.js')
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
@@ -62,13 +63,14 @@ router.get('/schedule', schedule.getScheduleAll);
 router.get('/schedule/conseling/:scheduleId', schedule.getScheduleById);
 router.get('/schedule/:date', schedule.getScheduleByDate);
 router.get('/schedule/conselings/:conselingId', schedule.getScheduleConseling)
+router.get('/schedule/conselings/patient/:patientId', schedule.GetPatientSchedule)
 
 router.post('/schedule/weekly', weekly.setWeekly)
 router.put('/schedule/weekly/:weekId', weekly.putWeekly)
 router.get('/schedule/weekly/:conselorId', weekly.getWeekly)
 
 router.get('/profile/:userId', profile.getProfile);
-router.put('/profile/:profileId', profile.updateProfile );
+router.put('/profile/:profileId',upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'ktp', maxCount: 1 }]), profile.updateProfile );
 
 router.get('/conseling/patient/:patientId', conseling.getConselingByPatient);
 router.get('/conseling', conseling.getConseling)
@@ -90,6 +92,9 @@ router.put('/complaint/:complaintId', complaint.doUpdateComplaint)
 
 router.post('/chat/room', room.setRoom)
 router.get('/chat/room/:conseling_id', room.getRoom)
+
+router.post('/log/chat', LogChat.SetLogChat)
+router.get('/log/chat/:complaint_id', LogChat.GetChat)
 
 router.post('/conseling/result', ResAndDec.postResult)
 router.get('/conseling/result/:conselingId', ResAndDec.getResult)
@@ -152,11 +157,15 @@ io.on('connection', (socket) => {
     })
 
     socket.on('add-message', (message) => {
-        io.emit('message', {text: message.text, from: socket.nickname, created: new Date()})
+        io.emit('message', {data: message.data, from: socket.nickname, created: new Date()})
     })
     
     socket.on('status-update', (status) => {
-        socket.emit('status-changed', {status: status.status, user : status.user_id})
+        io.emit('status-changed', {status: status.status, user : status.user_id})
+    })
+
+    socket.on('patient-update', () => {
+        io.emit('patient-status-changed', {status: true})
     })
 
 })

@@ -16,6 +16,7 @@ let getSchedule = (req, res) => {
 
         }
     })
+    
 }
 
 let scheduleConseling = (req, res) => {
@@ -97,26 +98,27 @@ let setSchedule = (req, res) => {
     });
 }
 
-// let conselorSchedule = (req, res) => { 
-//     Schedule.find(, (err, scheduler) => {
-//         if (err) {
-//             const msgError = {code: 500}
-//             return msgError;
-//         } else {
-//             return res.status(200).send({
-//                 status: "200 OK",
-//                 success: 'true',
-//                 data: scheduler
-//             });
+let PatientSchedule = (req, res) => { 
+    Schedule.find({patient_id: req.params.patientId}, (err, scheduler) => {
+        if (err) {
+            const msgError = {code: 500}
+            return msgError;
+        } else {
+            return res.status(200).send({
+                status: "200 OK",
+                success: 'true',
+                data: scheduler
+            });
 
-//         }
-//     })
-// }
+        }
+    })
+}
 
 module.exports = {
     getScheduleAll: getSchedule,
     getScheduleById: getScheduleById,
     setSchedule: setSchedule,
     getScheduleByDate: getScheduleByDate,
-    getScheduleConseling: scheduleConseling
+    getScheduleConseling: scheduleConseling,
+    GetPatientSchedule: PatientSchedule
 }
