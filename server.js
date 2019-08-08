@@ -62,6 +62,7 @@ router.post('/reset-password', user.doReset)
 
 router.post('/schedule', schedule.setSchedule);
 router.get('/schedule', schedule.getScheduleAll);
+router.put('/schedule/:schedule_id', schedule.UpdatSchedule);
 router.get('/schedule/conseling/:scheduleId', schedule.getScheduleById);
 router.get('/schedule/:date', schedule.getScheduleByDate);
 router.get('/schedule/conselings/:conselingId', schedule.getScheduleConseling)
