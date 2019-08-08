@@ -115,7 +115,7 @@ let PatientSchedule = (req, res) => {
 }
 
 let updatSchedule = (req, res) => {
-    NewSchedule.findOneAndUpdate(
+    Schedule.findOneAndUpdate(
         { conseling_id: req.params.conselingId },
         req.body,
         { new: true },
