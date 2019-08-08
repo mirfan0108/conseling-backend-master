@@ -29,9 +29,8 @@ let add = (req, res) => {
         } else {
             let formProfile = {
                 name: req.body.name,
-                avatar: req.files['avatar'][0] ? {data: req.files['avatar'][0].buffer, contentType: 'image/png'} : {data: null,contentType: null},
-                ktp: req.files['ktp'][0] ? {data: req.files['ktp'][0].buffer, contentType: 'image/png'} : {data: null,contentType: null},
-                hp: req.body.hp,
+                avatar: req.files['avatar'] ? {data: req.files['avatar'][0].buffer, contentType: 'image/png'} : {data: null,contentType: null},
+                ktp: req.files['ktp'] ? {data: req.files['ktp'][0].buffer, contentType: 'image/png'} : {data: null,contentType: null},
                 gender: req.body.gender,
                 birth:  req.body.birth,
                 address: req.body.address,
@@ -40,7 +39,7 @@ let add = (req, res) => {
             let newProfile = new Profile(formProfile);
             let newSpecialist;
             newProfile.save((err, profile) => {
-                if (err && result.user) {
+                if (err ) {
                     res.status(500).send(err);//err connection
                 } else {
                     if(req.body.role == 1) {

@@ -33,6 +33,8 @@ const room = require('./Controller/room.control.js')
 const ResAndDec = require('./Controller/Resultdecline.control.js')
 const Specialist = require('./Controller/specialist.control.js')
 const LogChat = require('./Controller/logchat.control.js')
+const Newschedule = require('./Controller/Newschedule.control.js')
+
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
@@ -103,6 +105,11 @@ router.get('/complaint/decline/:complaintId', ResAndDec.getDecline)
 
 router.post('/specialist', Specialist.setSpecialist )
 router.get('/specialist/conselor/:categories_id', Specialist.getConselorWithSpecialist)
+
+router.post('/new/schedule', Newschedule.PostNewSchedule)
+router.put('/new/schedule/:schedule_id', Newschedule.UpdateNewSchedule)
+router.get('/new/schedule/:conselor_id', Newschedule.GetNewSchedule)
+router.get('/new/schedule/:conselor_id/dates/:date', Newschedule.GetByDateNewSchedule)
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.use(function(req, res, next) {
