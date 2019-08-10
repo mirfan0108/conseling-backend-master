@@ -34,6 +34,7 @@ const ResAndDec = require('./Controller/Resultdecline.control.js')
 const Specialist = require('./Controller/specialist.control.js')
 const LogChat = require('./Controller/logchat.control.js')
 const Newschedule = require('./Controller/Newschedule.control.js')
+const Auth = require('./Controller/auth.control.js')
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -111,6 +112,8 @@ router.post('/new/schedule', Newschedule.PostNewSchedule)
 router.put('/new/schedule/:schedule_id', Newschedule.UpdateNewSchedule)
 router.get('/new/schedule/:conselor_id', Newschedule.GetNewSchedule)
 router.get('/new/schedule/:conselor_id/dates/:date', Newschedule.GetByDateNewSchedule)
+
+router.get('/checkToken', Auth.checkToken)
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.use(function(req, res, next) {
