@@ -179,4 +179,31 @@ io.on('connection', (socket) => {
         io.emit('patient-status-changed', {status: true})
     })
 
+    socket.on('start-vidcall', (id) => {
+        io.emit('vidcall-connect', {user: id})
+    })
+
+    socket.on('try-vidcall', (id) => {
+        io.emit('vidcall-connecting', {user: id})
+    })
+
+    socket.on('end-vidcall', (id) => {
+        io.emit('vidcall-end', {user: id})
+    })
+
+    socket.on('start-call', (id) => {
+        io.emit('call-connect', {user: id})
+    })
+
+    socket.on('try-call', (id) => {
+        io.emit('call-connecting', {user: id})
+    })
+
+    socket.on('end-call', (id) => {
+        io.emit('call-end', {user: id})
+    })
+
+
+
+
 })
