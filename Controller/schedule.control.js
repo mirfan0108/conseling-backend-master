@@ -129,6 +129,21 @@ let updatSchedule = (req, res) => {
     );
 }
 
+let updatScheduleById = (req, res) => {
+    Schedule.findOneAndUpdate(
+        { _id: req.params.id },
+        req.body,
+        { new: true },
+        (err, NewSchedule) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.status(200).json({code: 200, data: NewSchedule});
+            }
+        }
+    );
+}
+
 module.exports = {
     getScheduleAll: getSchedule,
     getScheduleById: getScheduleById,
@@ -136,5 +151,6 @@ module.exports = {
     getScheduleByDate: getScheduleByDate,
     getScheduleConseling: scheduleConseling,
     GetPatientSchedule: PatientSchedule,
-    UpdatSchedule: updatSchedule
+    UpdatSchedule: updatSchedule,
+    UpdatScheduleById: updatScheduleById
 }

@@ -64,6 +64,7 @@ router.post('/reset-password', user.doReset)
 router.post('/schedule', schedule.setSchedule);
 router.get('/schedule', schedule.getScheduleAll);
 router.put('/schedule/:conselingId', schedule.UpdatSchedule);
+router.put('/schedule/id/:id', schedule.UpdatScheduleById);
 router.get('/schedule/conseling/:scheduleId', schedule.getScheduleById);
 router.get('/schedule/:date', schedule.getScheduleByDate);
 router.get('/schedule/conselings/:conselingId', schedule.getScheduleConseling)
@@ -180,27 +181,27 @@ io.on('connection', (socket) => {
     })
 
     socket.on('start-vidcall', (id) => {
-        io.emit('vidcall-connect', {user: id})
+        io.emit('vidcall-connect', {from: id.from, to: id.to})
     })
 
     socket.on('try-vidcall', (id) => {
-        io.emit('vidcall-connecting', {user: id})
+        io.emit('vidcall-connecting', {from: id.from, to: id.to})
     })
 
     socket.on('end-vidcall', (id) => {
-        io.emit('vidcall-end', {user: id})
+        io.emit('vidcall-end', {from: id.from, to: id.to})
     })
 
     socket.on('start-call', (id) => {
-        io.emit('call-connect', {user: id})
+        io.emit('call-connect', {from: id.from, to: id.to})
     })
 
     socket.on('try-call', (id) => {
-        io.emit('call-connecting', {user: id})
+        io.emit('call-connecting', {from: id.from, to: id.to})
     })
 
     socket.on('end-call', (id) => {
-        io.emit('call-end', {user: id})
+        io.emit('call-end', {from: id.from, to: id.to})
     })
 
 
