@@ -270,17 +270,17 @@ let GetUser = (req, res) => {
 }
 
 let updateStatus = (req, res) => {
-    Profile.findOneAndUpdate(
+    User.findOneAndUpdate(
         { _id: req.params.userId },
         req.body,
         { new: true },
-        (err, profile) => {
+        (err, user) => {
             if (err) {
                 res.status(500).send(err);
             } else {
                 res.status(200).json({
                     code: 200,
-                    data: profile
+                    data: user
                 });
             }
         }
